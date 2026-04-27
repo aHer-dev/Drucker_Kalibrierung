@@ -13,7 +13,9 @@ export const MASSNAHMEN = {
   ],
   PHYSIO: [
     'Krankengymnastik (KG)',
-    'KG-ZNS Erwachsene (Bobath/Vojta/PNF)',
+    'KG-ZNS Erwachsene nach Bobath',
+    'KG-ZNS Erwachsene nach Vojta',
+    'KG-ZNS Erwachsene nach PNF',
     'KG-ZNS Kinder',
     'KG-Atemtherapie',
     'KG am Gerät (KGG)',

@@ -4,6 +4,7 @@ import { MASSNAHMEN, ZUSATZ_OPTIONEN } from '../constants/massnahmen';
 export default function VerordnungPanel({
   art, setArt,
   massnahme, setMassnahme,
+  massnahmeCustom, setMassnahmeCustom,
   zusatz, setZusatz,
   zusatzCustom, setZusatzCustom,
   anzahl, setAnzahl,
@@ -38,14 +39,32 @@ export default function VerordnungPanel({
 
         <label className="block text-xs font-medium mb-1.5 mt-4 text-stone-700">Maßnahme</label>
         <select
-          value={massnahme}
-          onChange={(e) => setMassnahme(e.target.value)}
+          value={massnahmeCustom ? '__custom__' : massnahme}
+          onChange={(e) => {
+            if (e.target.value === '__custom__') {
+              setMassnahmeCustom(true);
+              setMassnahme('');
+            } else {
+              setMassnahmeCustom(false);
+              setMassnahme(e.target.value);
+            }
+          }}
           className="w-full p-2 border border-stone-300 rounded text-sm bg-white"
         >
           {MASSNAHMEN[art].map((m) => (
             <option key={m} value={m}>{m}</option>
           ))}
+          <option value="__custom__">Eigener Text…</option>
         </select>
+        {massnahmeCustom && (
+          <input
+            value={massnahme}
+            onChange={(e) => setMassnahme(e.target.value)}
+            placeholder="z.B. Vojta-Therapie Erwachsene"
+            className="w-full p-2 border border-amber-400 rounded text-sm mt-2 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            autoFocus
+          />
+        )}
 
         <label className="block text-xs font-medium mb-1.5 mt-4 text-stone-700">Zusatz / Kombination</label>
         <select
@@ -113,20 +132,43 @@ export default function VerordnungPanel({
             Zeilen-Details
           </h3>
           <div className="space-y-1.5 max-h-80 overflow-y-auto pr-1">
-            {Array.from({ length: anzahl }, (_, i) => (
-              <div key={i} className="flex gap-1.5 items-center">
-                <span className="text-xs font-mono text-stone-400 w-5 text-right">{i + 1}</span>
-                <select
-                  value={(zeilen[i] && zeilen[i].massnahme) || ''}
-                  onChange={(e) => updateZeile(i, 'massnahme', e.target.value)}
-                  className="flex-1 p-1 border border-stone-300 rounded text-[11px] bg-white min-w-0"
-                >
-                  {MASSNAHMEN[art].map((m) => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </select>
-              </div>
-            ))}
+            {Array.from({ length: anzahl }, (_, i) => {
+              const zeile = zeilen[i] || {};
+              const isCustom = zeile.massnahme === '__custom__';
+              return (
+                <div key={i} className="flex gap-1.5 items-start">
+                  <span className="text-xs font-mono text-stone-400 w-5 text-right mt-1.5">{i + 1}</span>
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <select
+                      value={isCustom ? '__custom__' : (zeile.massnahme || '')}
+                      onChange={(e) => {
+                        if (e.target.value === '__custom__') {
+                          updateZeile(i, 'massnahme', '__custom__');
+                          updateZeile(i, 'massnahmeText', '');
+                        } else {
+                          updateZeile(i, 'massnahme', e.target.value);
+                          updateZeile(i, 'massnahmeText', '');
+                        }
+                      }}
+                      className="w-full p-1 border border-stone-300 rounded text-[11px] bg-white"
+                    >
+                      {MASSNAHMEN[art].map((m) => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                      <option value="__custom__">Eigener Text…</option>
+                    </select>
+                    {isCustom && (
+                      <input
+                        value={zeile.massnahmeText || ''}
+                        onChange={(e) => updateZeile(i, 'massnahmeText', e.target.value)}
+                        placeholder="Freitext…"
+                        className="w-full p-1 border border-amber-400 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-amber-300"
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

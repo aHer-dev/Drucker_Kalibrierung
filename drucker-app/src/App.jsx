@@ -12,6 +12,7 @@ import HelpModal from './components/HelpModal';
 export default function App() {
   const [art, setArt] = useState('ERGO');
   const [massnahme, setMassnahme] = useState(MASSNAHMEN.ERGO[0]);
+  const [massnahmeCustom, setMassnahmeCustom] = useState(false);
   const [zusatz, setZusatz] = useState('');
   const [zusatzCustom, setZusatzCustom] = useState(false);
   const [anzahl, setAnzahl] = useState(10);
@@ -31,6 +32,7 @@ export default function App() {
 
   useEffect(() => {
     setMassnahme(MASSNAHMEN[art][0]);
+    setMassnahmeCustom(false);
   }, [art]);
 
   const updateZeile = (i, key, val) => {
@@ -41,7 +43,8 @@ export default function App() {
     if (i >= anzahl) return '';
     if (individuell) {
       const z = zeilen[i] || {};
-      return z.zusatz ? `${z.massnahme} ${z.zusatz}` : z.massnahme;
+      const m = z.massnahme === '__custom__' ? (z.massnahmeText || '') : (z.massnahme || '');
+      return z.zusatz ? `${m} ${z.zusatz}` : m;
     }
     return zusatz ? `${massnahme} ${zusatz}` : massnahme;
   };
@@ -82,6 +85,7 @@ export default function App() {
         <VerordnungPanel
           art={art} setArt={setArt}
           massnahme={massnahme} setMassnahme={setMassnahme}
+          massnahmeCustom={massnahmeCustom} setMassnahmeCustom={setMassnahmeCustom}
           zusatz={zusatz} setZusatz={setZusatz}
           zusatzCustom={zusatzCustom} setZusatzCustom={setZusatzCustom}
           anzahl={anzahl} setAnzahl={setAnzahl}
