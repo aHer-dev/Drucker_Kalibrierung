@@ -1,5 +1,7 @@
-import { Image as ImageIcon, X } from 'lucide-react';
+import { Image as ImageIcon, X, FileText } from 'lucide-react';
 import { MASSNAHMEN, ZUSATZ_OPTIONEN } from '../constants/massnahmen';
+
+const rueckseiteImg = '/heilmittelverordnung_rueckseite.jpg';
 
 export default function VerordnungPanel({
   art, setArt,
@@ -10,7 +12,7 @@ export default function VerordnungPanel({
   anzahl, setAnzahl,
   individuell, setIndividuell,
   zeilen, updateZeile,
-  scanUrl, scanOpacity, setScanOpacity,
+  scanUrl, setScanUrl, scanOpacity, setScanOpacity,
   dragOver, uploadScan, handleDrop, handleDragOver, handleDragLeave, removeScan,
   showRaster, setShowRaster,
 }) {
@@ -178,6 +180,15 @@ export default function VerordnungPanel({
         <h2 className="font-display text-[11px] uppercase tracking-[0.15em] text-stone-500 font-semibold mb-3">
           Hintergrund
         </h2>
+
+        <button
+          onClick={() => setScanUrl(rueckseiteImg)}
+          className="w-full flex items-center gap-2 px-3 py-2 mb-3 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded text-xs font-medium text-stone-700 transition"
+        >
+          <FileText size={14} className="text-stone-500 shrink-0" />
+          Heilmittelverordnung – Rückseite
+        </button>
+
         <label
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}

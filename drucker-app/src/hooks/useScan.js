@@ -24,5 +24,5 @@ export function useScan() {
   const handleDragLeave = () => setDragOver(false);
   const removeScan = () => setScanUrl(null);
 
-  return { scanUrl, scanOpacity, setScanOpacity, dragOver, uploadScan, handleDrop, handleDragOver, handleDragLeave, removeScan };
+  return { scanUrl, setScanUrl, scanOpacity, setScanOpacity, dragOver, uploadScan, handleDrop, handleDragOver, handleDragLeave, removeScan };
 }

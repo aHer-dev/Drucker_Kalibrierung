@@ -91,7 +91,7 @@ export default function App() {
           anzahl={anzahl} setAnzahl={setAnzahl}
           individuell={individuell} setIndividuell={setIndividuell}
           zeilen={zeilen} updateZeile={updateZeile}
-          scanUrl={scan.scanUrl} scanOpacity={scan.scanOpacity} setScanOpacity={scan.setScanOpacity}
+          scanUrl={scan.scanUrl} setScanUrl={scan.setScanUrl} scanOpacity={scan.scanOpacity} setScanOpacity={scan.setScanOpacity}
           dragOver={scan.dragOver}
           uploadScan={scan.uploadScan}
           handleDrop={scan.handleDrop}
