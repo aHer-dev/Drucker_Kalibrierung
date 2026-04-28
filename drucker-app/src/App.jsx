@@ -18,8 +18,9 @@ export default function App() {
   const [anzahl, setAnzahl] = useState(10);
   const [individuell, setIndividuell] = useState(false);
   const [zeilen, setZeilen] = useState(
-    Array.from({ length: 20 }, () => ({ massnahme: MASSNAHMEN.ERGO[0], zusatz: '' }))
+    Array.from({ length: 20 }, () => ({ massnahme: MASSNAHMEN.ERGO[0], zusatz: '', zeit: 0 }))
   );
+  const [zeit, setZeit] = useState(0);
   const [showRaster, setShowRaster] = useState(true);
   const [showHelp, setShowHelp] = useState(false);
 
@@ -44,9 +45,11 @@ export default function App() {
     if (individuell) {
       const z = zeilen[i] || {};
       const m = z.massnahme === '__custom__' ? (z.massnahmeText || '') : (z.massnahme || '');
-      return z.zusatz ? `${m} ${z.zusatz}` : m;
+      const base = z.zusatz ? `${m} ${z.zusatz}` : m;
+      return z.zeit ? `${base} ${z.zeit}` : base;
     }
-    return zusatz ? `${massnahme} ${zusatz}` : massnahme;
+    const base = zusatz ? `${massnahme} ${zusatz}` : massnahme;
+    return zeit ? `${base} ${zeit}` : base;
   };
 
   return (
@@ -91,6 +94,7 @@ export default function App() {
           anzahl={anzahl} setAnzahl={setAnzahl}
           individuell={individuell} setIndividuell={setIndividuell}
           zeilen={zeilen} updateZeile={updateZeile}
+          zeit={zeit} setZeit={setZeit}
           scanUrl={scan.scanUrl} setScanUrl={scan.setScanUrl} scanOpacity={scan.scanOpacity} setScanOpacity={scan.setScanOpacity}
           dragOver={scan.dragOver}
           uploadScan={scan.uploadScan}

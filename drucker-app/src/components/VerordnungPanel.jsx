@@ -8,6 +8,7 @@ export default function VerordnungPanel({
   massnahmeCustom, setMassnahmeCustom,
   zusatz, setZusatz,
   zusatzCustom, setZusatzCustom,
+  zeit, setZeit,
   anzahl, setAnzahl,
   individuell, setIndividuell,
   zeilen, updateZeile,
@@ -94,6 +95,21 @@ export default function VerordnungPanel({
           />
         )}
 
+        <label className="block text-xs font-medium mb-1.5 mt-4 text-stone-700">Dauer (Minuten)</label>
+        <div className="flex gap-1 flex-wrap">
+          {[0, 15, 30, 45, 60, 75, 90].map((m) => (
+            <button
+              key={m}
+              onClick={() => setZeit(m)}
+              className={`px-2.5 py-1 text-xs font-mono rounded transition ${
+                zeit === m ? 'bg-stone-900 text-white' : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+              }`}
+            >
+              {m === 0 ? '–' : m}
+            </button>
+          ))}
+        </div>
+
         <label className="block text-xs font-medium mb-1.5 mt-4 text-stone-700">
           Anzahl Behandlungen
           <span className="font-mono ml-2 text-stone-500 font-normal">{anzahl} / 20</span>
@@ -166,6 +182,19 @@ export default function VerordnungPanel({
                         className="w-full p-1 border border-amber-400 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-amber-300"
                       />
                     )}
+                    <div className="flex gap-1 flex-wrap">
+                      {[0, 15, 30, 45, 60, 75, 90].map((m) => (
+                        <button
+                          key={m}
+                          onClick={() => updateZeile(i, 'zeit', m)}
+                          className={`px-1.5 py-0.5 text-[10px] font-mono rounded transition ${
+                            (zeile.zeit || 0) === m ? 'bg-stone-900 text-white' : 'bg-stone-100 hover:bg-stone-200 text-stone-600'
+                          }`}
+                        >
+                          {m === 0 ? '–' : m}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               );
