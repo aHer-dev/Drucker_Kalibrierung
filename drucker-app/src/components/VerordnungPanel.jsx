@@ -1,7 +1,7 @@
 import { Image as ImageIcon, X, FileText } from 'lucide-react';
 import { MASSNAHMEN, ZUSATZ_OPTIONEN } from '../constants/massnahmen';
 
-const rueckseiteImg = '/heilmittelverordnung_rueckseite.jpg';
+const rueckseiteImg = '/heilmittelverordnung_rueckseite.jpeg';
 
 export default function VerordnungPanel({
   art, setArt,
